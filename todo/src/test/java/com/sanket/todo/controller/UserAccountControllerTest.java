@@ -31,7 +31,7 @@ public class UserAccountControllerTest {
         this.mockMvc.perform(post("/ua/")
             .param("fName", "Sanket")
             .param("lName", "Parekh")
-            .param("email", "s.parekh@mckesson.com")
+            .param("email", "s.parekh@test.com")
             .param("pwd", "sparekh1"))
         .andDo(print()).andExpect(status().isOk());
         
