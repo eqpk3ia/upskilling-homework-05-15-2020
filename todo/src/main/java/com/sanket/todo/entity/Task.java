@@ -12,13 +12,13 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-public class Task {
+public class Task  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private UserAccount userAccount;
+    private User user;
     public String name;
     public String description;
 
@@ -70,8 +70,8 @@ public class Task {
         this.udpateDate = udpateDate;
     }
 
-    public Task(UserAccount userAccount, String name, String description, Date createDate, Date udpateDate) {
-        this.userAccount = userAccount;
+    public Task(User userAccount, String name, String description, Date createDate, Date udpateDate) {
+        this.user = userAccount;
         this.name = name;
         this.description = description;
         this.createDate = createDate;
@@ -81,11 +81,11 @@ public class Task {
     public Task() {
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public User getUserAccount() {
+        return user;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setUserAccount(User userAccount) {
+        this.user = userAccount;
     }
 }

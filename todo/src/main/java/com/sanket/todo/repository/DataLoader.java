@@ -28,23 +28,29 @@ public class DataLoader {
     }
 
     private void LoadInitData() {
-        List<Role> roles = new ArrayList<Role> ();
+        List<Role> roles = new ArrayList<Role>();
 
-        roles.add(new Role("ADMIN"));
-        roles.add(new Role("USER"));
-
-        //roleRepository.saveAll(roles);
-
-        List<User> users = new ArrayList<User> ();
-
-        Role adminRole = new Role("ADMIN"); //roleRepository.findByRole("ADMIN");
-        users.add(new User("admin@Test.com", passwordEncoder.encode("pwd"), "Admin", "Test", 1, new HashSet<Role>(Arrays.asList(adminRole))));
-
+        Role admin = new Role("ADMIN");
+        Role user = new Role("USER");
         
-        Role userRole = new Role("USER");
-        users.add(new User("user@Test.com", passwordEncoder.encode("pwd"), "User", "Test", 1, new HashSet<Role>(Arrays.asList(userRole))));
-        
-        
+        roles.add(admin);
+        roles.add(user);
+
+        roleRepository.saveAll(roles);
+
+        List<User> users = new ArrayList<User>();
+
+         users.add(new User("admin@Test.com", passwordEncoder.encode("pwd"), "Admin", "Test", 1,
+                new HashSet<Role>(Arrays.asList(admin))));
+
+        users.add(new User("user@Test.com", passwordEncoder.encode("pwd"), "User", "Test", 1,
+                new HashSet<Role>(Arrays.asList(user))));
         userRepository.saveAll(users);
+
+        /*
+        Role tempRole = roleRepository.findByRole("ADMIN");
+        userRepository.save(new User("adhoc@Test.com", passwordEncoder.encode("pwd"), "Adhoc", "Test", 1,
+                new HashSet<Role>(Arrays.asList(tempRole))));
+        */
     }
 }

@@ -9,20 +9,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ROLE")
-public class Role {
+public class Role  extends TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ROLE_ID")
-    private int id;
+    private Long id;
 
     @Column(name = "ROLE")
     private String role;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

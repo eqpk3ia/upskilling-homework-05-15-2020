@@ -41,8 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // http.authorizeRequests().antMatchers("/ua/*").permitAll().anyRequest().authenticated().and().httpBasic();
         http.authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/ua/").permitAll()
-            .antMatchers(HttpMethod.GET,"/ua/").permitAll()
+            //.antMatchers(HttpMethod.POST, "/ua/").permitAll()
+            .antMatchers(HttpMethod.GET,"/roles/").permitAll()
             .antMatchers("/console/**").permitAll().anyRequest()
             .authenticated()
                 .and().httpBasic()

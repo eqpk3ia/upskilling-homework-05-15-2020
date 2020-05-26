@@ -7,13 +7,10 @@ import java.util.Optional;
 
 import com.sanket.todo.entity.Role;
 import com.sanket.todo.entity.User;
-import com.sanket.todo.entity.UserAccount;
-import com.sanket.todo.repository.*;
-
+import com.sanket.todo.repository.RoleRepository;
 import com.sanket.todo.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,27 +24,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ua")
 public class UserAccountController {
-    @Autowired
-    private UserAccountRepository userRepository;
 
     @Autowired
-    private UserRepository uRepository;
-
+    private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("")
-    public List<Role> getUsers() {
-        return roleRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public UserAccount getUsers(@PathVariable("id") Long id) {
-        Optional<UserAccount> result = userRepository.findById(id);
+    public User getUsers(@PathVariable("id") Long id) {
+        Optional<User> result = userRepository.findById(id);
 
-        return result.isPresent() ? result.get() : null;        
+        return result.isPresent() ? result.get() : null;
     }
 
     @PostMapping("/")
@@ -64,7 +58,7 @@ public class UserAccountController {
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 
-        return uRepository.save(user);
+        return userRepository.save(user);
     }
 
     @DeleteMapping("/{id}")
@@ -82,24 +76,22 @@ public class UserAccountController {
     }
 
     @PatchMapping("/{id}")
-    public UserAccount updateUser(@PathVariable("id") Long id, @RequestParam("fName") String fName,
-            @RequestParam("lName") String lName, @RequestParam("email") String email,
-            @RequestParam("pwd") String pwd) {
-                UserAccount updateUser = null;
+    public User updateUser(@PathVariable("id") Long id, @RequestParam("fName") String fName,
+            @RequestParam("lName") String lName, @RequestParam("email") String email, @RequestParam("pwd") String pwd) {
+        User updateUser = null;
 
-        /*Optional<UserAccount> result = (Optional<UserAccount>) userRepository.findById(id);
+        /*
+         * Optional<UserAccount> result = (Optional<UserAccount>)
+         * userRepository.findById(id);
+         * 
+         * if (result.isPresent()) { updateUser = result.get();
+         * 
+         * updateUser.setFirstName(fName); updateUser.setLastName(lName);
+         * updateUser.setUserId(email); updateUser.setPassword(pwd);
+         * 
+         * updateUser = userRepository.save(updateUser); }
+         */
 
-        if (result.isPresent()) {
-            updateUser = result.get();
-
-            updateUser.setFirstName(fName);
-            updateUser.setLastName(lName);
-            updateUser.setUserId(email);
-            updateUser.setPassword(pwd);
-
-            updateUser = userRepository.save(updateUser);
-        }*/
-
-        return updateUser;        
+        return updateUser;
     }
 }

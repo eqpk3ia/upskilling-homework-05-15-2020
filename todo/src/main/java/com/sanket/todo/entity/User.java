@@ -19,11 +19,11 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
-    private int id;
+    private Long id;
 
     @Column(name = "EMAIL")
     @Email(message = "*Please provide a valid Email")
@@ -45,15 +45,15 @@ public class User {
     @Column(name = "ACTIVE")
     private int active;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
