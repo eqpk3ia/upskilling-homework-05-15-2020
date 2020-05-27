@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // http.authorizeRequests().antMatchers("/ua/*").permitAll().anyRequest().authenticated().and().httpBasic();
         http.authorizeRequests()
             //.antMatchers(HttpMethod.POST, "/ua/").permitAll()
-            .antMatchers(HttpMethod.GET,"/roles/").permitAll()
+            //.antMatchers(HttpMethod.GET,"/roles/**").permitAll()
             .antMatchers("/console/**").permitAll().anyRequest()
             .authenticated()
                 .and().httpBasic()

@@ -15,9 +15,9 @@ public class RoleController extends AbstractController<Role> {
     @Autowired
     private RoleRepository roleRepository;
 
-    public RoleController () {
+    /* public RoleController () {
         super();
-    }
+    } */
 
     @Override
     public JpaRepository<Role, Long> getRepository() {
