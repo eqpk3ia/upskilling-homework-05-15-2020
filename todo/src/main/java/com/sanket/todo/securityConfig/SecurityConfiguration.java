@@ -39,14 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // http.authorizeRequests().antMatchers("/ua/*").permitAll().anyRequest().authenticated().and().httpBasic();
         http.authorizeRequests()
-            //.antMatchers(HttpMethod.POST, "/ua/").permitAll()
-            //.antMatchers(HttpMethod.GET,"/roles/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/roles/**").permitAll()
             .antMatchers("/console/**").permitAll().anyRequest()
-            .authenticated()
-                .and().httpBasic()
-                .and().csrf().disable()
+            .authenticated().and().httpBasic().and().csrf().disable()
             ;
     }
 

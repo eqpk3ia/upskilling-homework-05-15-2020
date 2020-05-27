@@ -15,5 +15,9 @@ public abstract class AbstractController<E extends TodoEntity> {
     public List<E> getAll () {
         return getRepository().findAll();
     }
+
+    protected E save(E entity) {
+        return getRepository().save(entity);
+    }
   
 }
