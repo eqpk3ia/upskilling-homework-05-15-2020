@@ -54,27 +54,6 @@ public class UserAccountControllerTest {
         System.out.println(this.mockMvc.perform(get("/ua/")).andDo(print()));
         System.out.println("**************** Get Users Response End ****************");
     }
-    
-    @Test
-	public void deleteUser() throws Exception {
-        System.out.println("**************** DELETE Users ****************");
-
-        this.mockMvc.perform(delete("/ua/1"))
-            .andDo(print()).andExpect(status().isOk());
-        
-        System.out.println("**************** Get Users Response Started ****************");
-        System.out.println(this.mockMvc.perform(get("/ua/")).andDo(print()));
-        System.out.println("**************** Get Users Response End ****************");
-	}*/
-
-    /*@Test
-	public void getUsers() throws Exception {
-        System.out.println("**************** Get Users ****************");
-        this.mockMvc.perform(get("/ua/")).andDo(print()).andExpect(status().isOk());
-        
-        System.out.println("**************** Get Users Response Started ****************");
-        //System.out.println(this.mockMvc.perform(get("/ua/")).andDo(print()));
-        System.out.println("**************** Get Users Response End ****************");
-				
-	}*/
+    */
+   
 }

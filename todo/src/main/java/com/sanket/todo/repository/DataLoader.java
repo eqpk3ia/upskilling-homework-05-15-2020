@@ -32,25 +32,21 @@ public class DataLoader {
 
         Role admin = new Role("ADMIN");
         Role user = new Role("USER");
+        Role testRole = new Role("TESTROLE");
         
         roles.add(admin);
         roles.add(user);
+        roles.add(testRole);
 
         roleRepository.saveAll(roles);
 
-        List<User> users = new ArrayList<User>();
+         List<User> users = new ArrayList<User>();
 
-         users.add(new User("admin@Test.com", passwordEncoder.encode("pwd"), "Admin", "Test", 1,
+        users.add(new User("admin@Test.com", passwordEncoder.encode("pwd"), "Admin", "Test", 1,
                 new HashSet<Role>(Arrays.asList(admin))));
 
         users.add(new User("user@Test.com", passwordEncoder.encode("pwd"), "User", "Test", 1,
                 new HashSet<Role>(Arrays.asList(user))));
-        userRepository.saveAll(users);
-
-        /*
-        Role tempRole = roleRepository.findByRole("ADMIN");
-        userRepository.save(new User("adhoc@Test.com", passwordEncoder.encode("pwd"), "Adhoc", "Test", 1,
-                new HashSet<Role>(Arrays.asList(tempRole))));
-        */
+        userRepository.saveAll(users); 
     }
 }

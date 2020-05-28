@@ -1,12 +1,13 @@
 package com.sanket.todo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Base64;
-import java.util.Map;
 
 import com.sanket.todo.entity.TodoEntity;
 
@@ -35,19 +36,43 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
     @Autowired
     protected MockMvc mockMvc;
 
-    public abstract String getEndPointUrl();
+    protected abstract String getEndPointUrl();
 
-    public abstract MultiValueMap<String, String> getAddRecordDetails();
+    protected abstract Long getIdToFindById();
+
+    protected abstract Long getIdToUpdate();
+
+    protected abstract Long getIdToDelete();
+
+    protected abstract boolean executeDeleteAll();
+
+    protected abstract MultiValueMap<String, String> getAddRecordDetails();
+
+    protected abstract MultiValueMap<String, String> getUpdateRecordDetails();
 
     @Test
     public void getAll() throws Exception {
 
         System.out.println("**************** Get All Start ****************");
 
-        this.mockMvc.perform(get(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicAdminDigestHeaderValue()))
+        this.mockMvc.perform(get(getEndPointUrl()))
                 .andDo(print()).andExpect(status().isOk());
 
         System.out.println("**************** Get All End ****************");
+    }
+
+    @Test
+    public void getById() throws Exception {
+
+        System.out.println("**************** getById Start ****************");
+
+        Long id = getIdToFindById();
+        if (null != id) {
+            this.mockMvc.perform(get(getEndPointUrl() + id.toString()).header(HttpHeaders.AUTHORIZATION,
+                    getBasicAdminDigestHeaderValue())).andDo(print()).andExpect(status().isOk());
+        }
+
+        System.out.println("**************** getById End ****************");
     }
 
     @Test
@@ -57,8 +82,46 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
         MultiValueMap<String, String> addEntity = getAddRecordDetails();
         this.mockMvc.perform(post(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue())
                 .params(addEntity)).andDo(print()).andExpect(status().isOk());
-                
+
         System.out.println("**************** Add End ****************");
+    }
+
+    @Test
+    public void update() throws Exception {
+        System.out.println("**************** Update Started ****************");
+
+        Long id = getIdToUpdate();
+
+        MultiValueMap<String, String> addEntity = getUpdateRecordDetails();
+        this.mockMvc
+                .perform(patch(getEndPointUrl() + id.toString())
+                        .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(addEntity))
+                .andDo(print()).andExpect(status().isOk());
+
+        System.out.println("**************** Update End ****************");
+    }
+
+    @Test
+    public void deleteById() throws Exception {
+        System.out.println("**************** deleteById Started ****************");
+
+        Long id = getIdToDelete();
+        this.mockMvc.perform(delete(getEndPointUrl() + id.toString()).header(HttpHeaders.AUTHORIZATION,
+                getBasicUserDigestHeaderValue())).andDo(print()).andExpect(status().isOk());
+
+        System.out.println("**************** deleteById End ****************");
+    }
+
+    @Test
+    public void deleteAll() throws Exception {
+        System.out.println("**************** delete all Started ****************");
+
+        if (executeDeleteAll()) {
+            this.mockMvc.perform(delete(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION,
+            getBasicUserDigestHeaderValue())).andDo(print()).andExpect(status().isOk());
+        }
+
+        System.out.println("**************** delete all End ****************");
     }
 
     protected String getBasicAdminDigestHeaderValue() {
