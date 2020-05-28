@@ -49,7 +49,7 @@ public class UserAccountController {
             @RequestParam("email") String email, @RequestParam("pwd") String pwd) {
         User user = new User();
 
-        user.setName(fName);
+        user.setFirstName(fName);
         user.setLastName(lName);
         user.setPassword(passwordEncoder.encode(pwd));
         user.setEmail(email);

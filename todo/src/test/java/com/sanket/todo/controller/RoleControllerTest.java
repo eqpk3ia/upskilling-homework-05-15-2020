@@ -25,11 +25,11 @@ public class RoleControllerTest extends AbstractControllerTest<Role> {
 
     @Override
     protected MultiValueMap<String, String> getUpdateRecordDetails() {
-        MultiValueMap<String, String> addRole = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> updateRole = new LinkedMultiValueMap<>();
 
-        addRole.add("roleName", "updatedRole" + getIdToUpdate());
+        updateRole.add("roleName", "updatedRole" + getIdToUpdate());
 
-        return addRole;
+        return updateRole;
     }
 
     @Override

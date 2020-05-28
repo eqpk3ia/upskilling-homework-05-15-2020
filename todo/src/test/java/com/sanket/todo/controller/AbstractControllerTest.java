@@ -55,7 +55,7 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
 
         System.out.println("**************** Get All Start ****************");
 
-        this.mockMvc.perform(get(getEndPointUrl()))
+        this.mockMvc.perform(get(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicAdminDigestHeaderValue()))
                 .andDo(print()).andExpect(status().isOk());
 
         System.out.println("**************** Get All End ****************");
@@ -117,8 +117,10 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
         System.out.println("**************** delete all Started ****************");
 
         if (executeDeleteAll()) {
-            this.mockMvc.perform(delete(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION,
-            getBasicUserDigestHeaderValue())).andDo(print()).andExpect(status().isOk());
+            this.mockMvc
+                    .perform(
+                            delete(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()))
+                    .andDo(print()).andExpect(status().isOk());
         }
 
         System.out.println("**************** delete all End ****************");

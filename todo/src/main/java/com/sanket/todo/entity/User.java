@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "USER")
-public class User  {
+public class User  extends TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
@@ -34,9 +34,9 @@ public class User  {
     @NotEmpty(message = "*Please provide your password")
     private String password;
 
-    @Column(name = "NAME")
-    @NotEmpty(message = "*Please provide your name")
-    private String name;
+    @Column(name = "FIRST_NAME")
+    @NotEmpty(message = "*Please provide your first name")
+    private String firstName;
 
     @Column(name = "LAST_NAME")
     @NotEmpty(message = "*Please provide your last name")
@@ -73,12 +73,12 @@ public class User  {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -108,11 +108,11 @@ public class User  {
     public User(
             @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email,
             @NotEmpty(message = "*Please provide your password") String password,
-            @NotEmpty(message = "*Please provide your name") String name,
+            @NotEmpty(message = "*Please provide your first name") String firstName,
             @NotEmpty(message = "*Please provide your last name") String lastName, int active, Set<Role> roles) {
         this.email = email;
         this.password = password;
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.active = active;
         this.roles = roles;
