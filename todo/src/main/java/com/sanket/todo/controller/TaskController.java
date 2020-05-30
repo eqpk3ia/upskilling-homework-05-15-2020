@@ -1,74 +1,83 @@
 package com.sanket.todo.controller;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sanket.todo.entity.Task;
+import com.sanket.todo.entity.User;
 import com.sanket.todo.repository.TaskRepository;
+import com.sanket.todo.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/tasks")
-public class TaskController {
+public class TaskController extends AbstractController<Task> {
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private TaskRepository taskRepository;
 
-    @GetMapping("")
-    public List<Task> getTasks() {
-        return taskRepository.findAll();
+    @Override
+    public JpaRepository<Task, Long> getRepository() {
+        return taskRepository;
     }
 
-    @GetMapping("/{id}")
-    public Task getTasks(@PathVariable("id") Long id) {
-        Optional<Task> result = taskRepository.findById(id);
+    @PostMapping("/")
+    public Task addTask(@RequestParam("name") String name, @RequestParam("descr") String descr) {
 
-        return result.isPresent() ? result.get() : null;        
-    }
+        Task newTask = null;
 
-    /*@PostMapping("")
-    public UserAccount getAddUser(@RequestParam("fName") String fName, @RequestParam("lName") String lName,
-            @RequestParam("email") String email, @RequestParam("pwd") String pwd) {
-        return taskRepository.save(new UserAccount(fName, lName, email, pwd));
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        taskRepository.deleteById(id);
+            if (null != currentUserName && !currentUserName.trim().isEmpty()) {
+                User currentUser = userRepository.findByEmail(currentUserName);
 
-        return "User with Id " + id + " deleted";
-    }
+                if (null != currentUser) {
+                    //Set<User> users = new HashSet<User>(Arrays.asList(currentUser));
 
-    @DeleteMapping("")
-    public String deleteUsers() {
-        taskRepository.deleteAll();
+                    newTask = new Task(name, descr, currentUser);
+                    save(newTask);
+                }
+            }
+        }
 
-        return "All Users are deleted";
+        return newTask;
     }
 
     @PatchMapping("/{id}")
-    public UserAccount updateUser(@PathVariable("id") Long id, @RequestParam("fName") String fName,
-            @RequestParam("lName") String lName, @RequestParam("email") String email,
-            @RequestParam("pwd") String pwd) {
-                UserAccount updateUser = null;
+    public Task updateTask(@PathVariable("id") Long id, @RequestParam("name") String name,
+            @RequestParam("descr") String descr) {
+        Task task = getById(id);
 
-        Optional<UserAccount> result = (Optional<UserAccount>) taskRepository.findById(id);
+        if (null != task) {
+            if (null != name && !name.trim().isEmpty()) {
+                task.setName(name);
+            }
 
-        if (result.isPresent()) {
-            updateUser = result.get();
+            if (null != descr && !descr.trim().isEmpty()) {
+                task.setDescription(descr);
+            }
 
-            updateUser.setFirstName(fName);
-            updateUser.setLastName(lName);
-            updateUser.setUserId(email);
-            updateUser.setPassword(pwd);
-
-            updateUser = taskRepository.save(updateUser);
+            save(task);
         }
 
-        return updateUser;        
-    }*/
+        return task;
+    }
+
 }

@@ -7,28 +7,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-public class Task  {
+@Table(name = "TASK")
+public class Task extends TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "TASK_ID")
     private Long id;
 
-    @ManyToOne
-    private User user;
+    @Column(name = "NAME")
+    @NotEmpty(message = "*Please provide your task name")
     public String name;
+
+    @Column(name = "DESCRIPTION")
     public String description;
 
     @CreationTimestamp
-    @Column(insertable = true, updatable = false)
+    @Column(name = "CREATE_DT", insertable = true, updatable = false)
     public Date createDate;
 
-    @CreationTimestamp
-    @Column(insertable = false, updatable = true)
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDT_DT", insertable = false, updatable = true)
     public Date udpateDate;
+
+    @ManyToOne
+    @JoinColumn(name="USER_ID", nullable=false)
+    private User user;
 
     public Long getId() {
         return id;
@@ -70,22 +82,14 @@ public class Task  {
         this.udpateDate = udpateDate;
     }
 
-    public Task(User userAccount, String name, String description, Date createDate, Date udpateDate) {
-        this.user = userAccount;
+    public Task(String name, String description, User user) {
         this.name = name;
         this.description = description;
-        this.createDate = createDate;
-        this.udpateDate = udpateDate;
+        this.user = user;
     }
 
     public Task() {
     }
 
-    public User getUserAccount() {
-        return user;
-    }
-
-    public void setUserAccount(User userAccount) {
-        this.user = userAccount;
-    }
+    
 }

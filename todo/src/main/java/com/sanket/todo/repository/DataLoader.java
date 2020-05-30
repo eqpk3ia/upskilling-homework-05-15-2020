@@ -48,7 +48,7 @@ public class DataLoader {
         users.add(new User("user@Test.com", passwordEncoder.encode("pwd"), "User", "Test", 1,
                 new HashSet<Role>(Arrays.asList(user))));
 
-        users.add(new User("user@Test.com", passwordEncoder.encode("pwd"), "Update", "Test", 1,
+        users.add(new User("test@Test.com", passwordEncoder.encode("pwd"), "Update", "Test", 1,
                 new HashSet<Role>(Arrays.asList(user))));
 
         userRepository.saveAll(users);
