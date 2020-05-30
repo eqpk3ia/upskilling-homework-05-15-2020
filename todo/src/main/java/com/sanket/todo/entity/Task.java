@@ -1,6 +1,6 @@
 package com.sanket.todo.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,16 +27,16 @@ public class Task extends TodoEntity {
     @NotEmpty(message = "*Please provide your task name")
     public String name;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", nullable = true)
     public String description;
 
     @CreationTimestamp
     @Column(name = "CREATE_DT", insertable = true, updatable = false)
-    public Date createDate;
+    public Timestamp createDate;
 
     @UpdateTimestamp
-    @Column(name = "LAST_UPDT_DT", insertable = false, updatable = true)
-    public Date udpateDate;
+    @Column(name = "LAST_UPDT_DT", insertable = false, updatable = true, nullable = true)
+    public Timestamp udpateDate;
 
     @ManyToOne
     @JoinColumn(name="USER_ID", nullable=false)
@@ -66,19 +66,19 @@ public class Task extends TodoEntity {
         this.description = description;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUdpateDate() {
+    public Timestamp getUdpateDate() {
         return udpateDate;
     }
 
-    public void setUdpateDate(Date udpateDate) {
+    public void setUdpateDate(Timestamp udpateDate) {
         this.udpateDate = udpateDate;
     }
 
