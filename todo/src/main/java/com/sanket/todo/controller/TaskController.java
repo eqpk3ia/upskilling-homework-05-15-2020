@@ -1,7 +1,15 @@
 package com.sanket.todo.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import com.sanket.todo.entity.Task;
 import com.sanket.todo.entity.TaskList;
@@ -10,9 +18,12 @@ import com.sanket.todo.repository.TaskRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +44,8 @@ public class TaskController extends AbstractAuthenticationController<Task> {
     }
 
     @PutMapping("/")
-    public Task addTask(@RequestParam(name = "name", required = true) String name,
-            @RequestParam(name = "descr", required = false) String descr) {
+    public Task addTask(@RequestParam(name = "name", required = true) @NotBlank String name,
+            @RequestParam(name = "descr", required = false) @NotBlank String descr) {
         Task newTask = null;
 
         if (!name.trim().isEmpty()) {
@@ -50,13 +61,13 @@ public class TaskController extends AbstractAuthenticationController<Task> {
         return newTask;
     }
 
-    @PutMapping("/lists/{taskListId}")
-    public Task addTask(@PathVariable(name = "taskListId", required = true) Long taskListId,
-            @RequestParam(name = "name", required = true) String name,
-            @RequestParam(name = "descr", required = false) String descr) {
+    @PutMapping("/lists/{id}")
+    public Task addTask(@PathVariable(name = "id", required = true) Long taskListId,
+            @RequestParam(name = "name", required = true) @NotBlank String name,
+            @RequestParam(name = "descr", required = false) @NotBlank String descr) {
         Task newTask = null;
 
-        if (!name.trim().isEmpty() && null != taskListId) {
+        if (null != taskListId) {
             User currentUser = getCurrentUser();
 
             if (null != currentUser) {
@@ -72,10 +83,10 @@ public class TaskController extends AbstractAuthenticationController<Task> {
         return newTask;
     }
 
-    @PostMapping("/{id}")
-    public Task updateTask(@PathVariable(name = "id", required = true) Long id,
-            @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "descr", required = false) String descr) {
+    @PostMapping("/")
+    public Task updateTask(@RequestParam(name = "id", required = true) Long id,
+            @RequestParam(name = "name", required = false) @NotBlank String name,
+            @RequestParam(name = "descr", required = false) @NotBlank String descr) {
         Task task = getById(id);
 
         if (null != task) {
@@ -91,5 +102,37 @@ public class TaskController extends AbstractAuthenticationController<Task> {
         }
 
         return task;
+    }
+
+    @GetMapping("/{id}/lists/")
+    public List<TaskList> getTaskListByTaskId(@PathVariable(name = "id", required = true) Long id) {
+        List<TaskList> taskLists = null;
+
+        Task newTask = getById(id);
+
+        if (null != id) {
+            Set<TaskList> results = newTask.getTaskLists();
+
+            if (null != results && !results.isEmpty()) {
+                taskLists = new ArrayList<TaskList>(results);
+            }
+        }
+
+        return taskLists;
+    }
+
+    @PatchMapping("/lists/{id}")
+    public void patchTaskListForTaskId(@PathVariable(name = "id", required = true) Long id, @RequestBody Task task) {
+        TaskList currentTaskList = taskListController.getById(id);
+
+        if (null != currentTaskList) {
+            List<Task> results = taskRepository.findByTaskLists(currentTaskList);
+
+            for (Task resultTask : results) {
+                resultTask.setTaskLists(task.getTaskLists());
+
+                save(resultTask);
+            }
+        }
     }
 }

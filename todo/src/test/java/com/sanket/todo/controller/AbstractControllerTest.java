@@ -40,8 +40,6 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
 
     protected abstract Long getIdToFindById();
 
-    protected abstract Long getIdToUpdate();
-
     protected abstract Long getIdToDelete();
 
     protected abstract boolean executeDeleteAll();
@@ -90,11 +88,10 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
     public void update() throws Exception {
         System.out.println("**************** Update Started ****************");
 
-        Long id = getIdToUpdate();
 
         MultiValueMap<String, String> updateEntity = getUpdateRecordDetails();
         this.mockMvc
-                .perform(post(getEndPointUrl() + id.toString())
+                .perform(post(getEndPointUrl())
                         .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(updateEntity))
                 .andDo(print()).andExpect(status().isOk());
 

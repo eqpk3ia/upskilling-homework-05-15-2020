@@ -1,12 +1,12 @@
 package com.sanket.todo.controller;
 
+import javax.validation.constraints.NotBlank;
+
 import com.sanket.todo.entity.Role;
 import com.sanket.todo.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,21 +26,21 @@ public class RoleController extends AbstractController<Role> {
     }
 
     @PutMapping("/")
-    public Role addRole(@RequestParam(required = true, name = "roleName") String roleName) {
+    public Role addRole(@RequestParam(required = true, name = "name")  @NotBlank String name) {
         Role newRole = new Role();
 
-        newRole.setRole(roleName.toUpperCase());
+        newRole.setRole(name.toUpperCase());
 
         return save(newRole);
     }
 
-    @PostMapping("/{id}")
-    public Role updateUser(@PathVariable(name = "id", required = true) Long id,
-            @RequestParam(name = "roleName", required = true) String roleName) {
+    @PostMapping("/")
+    public Role updateUser(@RequestParam(name = "id", required = true) Long id,
+            @RequestParam(name = "name", required = true) @NotBlank String name) {
         Role role = getById(id);
 
         if (null != role) {
-            role.setRole(roleName.toUpperCase());
+            role.setRole(name.toUpperCase());
             save(role);
         }
 

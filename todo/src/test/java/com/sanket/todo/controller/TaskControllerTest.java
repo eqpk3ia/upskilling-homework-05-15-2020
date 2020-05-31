@@ -1,18 +1,8 @@
 package com.sanket.todo.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.sanket.todo.entity.Task;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -39,6 +29,7 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
     protected MultiValueMap<String, String> getUpdateRecordDetails() {
         MultiValueMap<String, String> updateUser = new LinkedMultiValueMap<>();
 
+        updateUser.add("id", "7");
         updateUser.add("name", "First Update Task");
         updateUser.add("descr", "First Updated Description");
 
@@ -61,11 +52,6 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
 
     @Override
     protected Long getIdToFindById() {
-        return 7L;
-    }
-
-    @Override
-    protected Long getIdToUpdate() {
         return 7L;
     }
 

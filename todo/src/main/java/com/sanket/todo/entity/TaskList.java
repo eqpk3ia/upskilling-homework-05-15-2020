@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "TASK_LIST")
@@ -15,7 +16,8 @@ public class TaskList extends TodoEntity {
     @Column(name = "LIST_ID")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", unique = true, nullable = false)
+    @NotBlank
     private String name;
 
     public Long getId() {

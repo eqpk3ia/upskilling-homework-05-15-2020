@@ -18,7 +18,7 @@ public class TaskListControllerTest extends AbstractControllerTest<Role> {
     protected MultiValueMap<String, String> getAddRecordDetails() {
         MultiValueMap<String, String> addRole = new LinkedMultiValueMap<>();
 
-        addRole.add("taskListName", "PMO-1234");
+        addRole.add("name", "PMO-1234");
 
         return addRole;
     }
@@ -27,18 +27,14 @@ public class TaskListControllerTest extends AbstractControllerTest<Role> {
     protected MultiValueMap<String, String> getUpdateRecordDetails() {
         MultiValueMap<String, String> updateRole = new LinkedMultiValueMap<>();
 
-        updateRole.add("taskListName", "UPDATE_PMO-12345" + getIdToUpdate());
+        updateRole.add("id", "7");
+        updateRole.add("name", "UPDATE_PMO-12345");
 
         return updateRole;
     }
 
     @Override
     protected Long getIdToFindById() {
-        return 7L;
-    }
-
-    @Override
-    protected Long getIdToUpdate() {
         return 7L;
     }
 

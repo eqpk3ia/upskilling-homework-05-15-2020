@@ -3,6 +3,8 @@ package com.sanket.todo.controller;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import javax.validation.constraints.NotBlank;
+
 import com.sanket.todo.entity.Role;
 import com.sanket.todo.entity.User;
 import com.sanket.todo.repository.RoleRepository;
@@ -36,10 +38,10 @@ public class UserController extends AbstractController<User> {
     }
 
     @PutMapping("/")
-    public User addUser(@RequestParam(required = true, name = "firstName") String firstName,
-        @RequestParam(required = true, name = "lastName") String lastName,
-        @RequestParam(required = true, name = "email") String email,
-        @RequestParam(required = true, name = "password") String password) {
+    public User addUser(@RequestParam(required = true, name = "firstName") @NotBlank String firstName,
+        @RequestParam(required = true, name = "lastName") @NotBlank String lastName,
+        @RequestParam(required = true, name = "email") @NotBlank String email,
+        @RequestParam(required = true, name = "password") @NotBlank String password) {
 
         Role adminRole = roleRepository.findByRole("ADMIN");
 
@@ -49,12 +51,12 @@ public class UserController extends AbstractController<User> {
         return save(newUser);
     }
 
-    @PostMapping("/{id}")
-    public User updateUser(@PathVariable(name = "id", required = true) Long id,
-        @RequestParam(required = false, name = "firstName") String firstName,
-        @RequestParam(required = false, name = "lastName") String lastName,
-        @RequestParam(required = false, name = "email") String email,
-        @RequestParam(required = false, name = "password") String password) {
+    @PostMapping("/")
+    public User updateUser(@RequestParam(name = "id", required = true) Long id,
+        @RequestParam(required = false, name = "firstName") @NotBlank String firstName,
+        @RequestParam(required = false, name = "lastName") @NotBlank String lastName,
+        @RequestParam(required = false, name = "email") @NotBlank String email,
+        @RequestParam(required = false, name = "password") @NotBlank String password) {
         
         User user = getById(id);
         if (null != user) {

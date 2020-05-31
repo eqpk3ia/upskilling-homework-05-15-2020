@@ -18,7 +18,7 @@ public class RoleControllerTest extends AbstractControllerTest<Role> {
     protected MultiValueMap<String, String> getAddRecordDetails() {
         MultiValueMap<String, String> addRole = new LinkedMultiValueMap<>();
 
-        addRole.add("roleName", "newRole");
+        addRole.add("name", "newRole");
 
         return addRole;
     }
@@ -27,7 +27,8 @@ public class RoleControllerTest extends AbstractControllerTest<Role> {
     protected MultiValueMap<String, String> getUpdateRecordDetails() {
         MultiValueMap<String, String> updateRole = new LinkedMultiValueMap<>();
 
-        updateRole.add("roleName", "updatedRole" + getIdToUpdate());
+        updateRole.add("id", "3");
+        updateRole.add("name", "updatedRole");
 
         return updateRole;
     }
@@ -35,11 +36,6 @@ public class RoleControllerTest extends AbstractControllerTest<Role> {
     @Override
     protected Long getIdToFindById() {
         return 2L;
-    }
-
-    @Override
-    protected Long getIdToUpdate() {
-        return 3L;
     }
 
     @Override

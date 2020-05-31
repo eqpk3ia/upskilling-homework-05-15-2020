@@ -30,6 +30,7 @@ public class UserControllerTest extends AbstractControllerTest<User> {
     protected MultiValueMap<String, String> getUpdateRecordDetails() {
         MultiValueMap<String, String> updateUser = new LinkedMultiValueMap<>();
 
+        updateUser.add("id", "6");
         updateUser.add("firstName", "FirstUpdate");
         updateUser.add("lastName", "LastUpdate");
 
@@ -39,11 +40,6 @@ public class UserControllerTest extends AbstractControllerTest<User> {
     @Override
     protected Long getIdToFindById() {
         return 4L;
-    }
-
-    @Override
-    protected Long getIdToUpdate() {
-        return 6L;
     }
 
     @Override
