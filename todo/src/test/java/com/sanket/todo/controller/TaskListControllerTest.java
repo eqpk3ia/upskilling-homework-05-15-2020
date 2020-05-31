@@ -34,17 +34,17 @@ public class TaskListControllerTest extends AbstractControllerTest<Role> {
 
     @Override
     protected Long getIdToFindById() {
-        return 9L;
+        return 7L;
     }
 
     @Override
     protected Long getIdToUpdate() {
-        return 9L;
+        return 7L;
     }
 
     @Override
     protected Long getIdToDelete() {
-        return 9L;
+        return null;
     }
 
     @Override

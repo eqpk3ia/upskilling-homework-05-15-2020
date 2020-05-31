@@ -15,13 +15,13 @@ public abstract class AbstractController<E extends TodoEntity> {
     public abstract JpaRepository<E, Long> getRepository();
 
     @GetMapping("/")
-    public List<E> getAll () {
+    public List<E> getAll() {
         return getRepository().findAll();
     }
 
     @GetMapping("/{id}")
     public E getById(@PathVariable(name = "id", required = true) Long id) {
-        Optional<E> result =getRepository().findById(id);
+        Optional<E> result = getRepository().findById(id);
 
         return result.isPresent() ? result.get() : null;
     }

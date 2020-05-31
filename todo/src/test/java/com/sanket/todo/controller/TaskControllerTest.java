@@ -1,7 +1,18 @@
 package com.sanket.todo.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.sanket.todo.entity.Task;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -19,7 +30,7 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
         MultiValueMap<String, String> addUser = new LinkedMultiValueMap<>();
 
         addUser.add("name", "First Task");
-        //addUser.add("descr", "First Task Description");
+        // addUser.add("descr", "First Task Description");
 
         return addUser;
     }
@@ -34,19 +45,33 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
         return updateUser;
     }
 
+    @Test
+    public void addNewTaskWithTaskListId() throws Exception {
+
+        System.out.println("**************** addNewTaskWithTaskListId Start ****************");
+
+        MultiValueMap<String, String> updateEntity = getUpdateRecordDetails();
+        /*this.mockMvc
+                .perform(put(getEndPointUrl() + "lists/" + "9")
+                        .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(updateEntity))
+                .andDo(print()).andExpect(status().isOk());
+*/
+        System.out.println("**************** addNewTaskWithTaskListId End ****************");
+    }
+
     @Override
     protected Long getIdToFindById() {
-        return 8L;
+        return 7L;
     }
 
     @Override
     protected Long getIdToUpdate() {
-        return 8L;
+        return 7L;
     }
 
     @Override
     protected Long getIdToDelete() {
-        return 8L;
+        return null;
     }
 
     @Override

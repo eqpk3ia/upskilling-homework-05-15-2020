@@ -1,7 +1,7 @@
 package com.sanket.todo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -80,7 +80,7 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
         System.out.println("**************** Add Started ****************");
 
         MultiValueMap<String, String> addEntity = getAddRecordDetails();
-        this.mockMvc.perform(post(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue())
+        this.mockMvc.perform(put(getEndPointUrl()).header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue())
                 .params(addEntity)).andDo(print()).andExpect(status().isOk());
 
         System.out.println("**************** Add End ****************");
@@ -92,10 +92,10 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
 
         Long id = getIdToUpdate();
 
-        MultiValueMap<String, String> addEntity = getUpdateRecordDetails();
+        MultiValueMap<String, String> updateEntity = getUpdateRecordDetails();
         this.mockMvc
-                .perform(patch(getEndPointUrl() + id.toString())
-                        .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(addEntity))
+                .perform(post(getEndPointUrl() + id.toString())
+                        .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(updateEntity))
                 .andDo(print()).andExpect(status().isOk());
 
         System.out.println("**************** Update End ****************");
@@ -106,8 +106,10 @@ public abstract class AbstractControllerTest<E extends TodoEntity> {
         System.out.println("**************** deleteById Started ****************");
 
         Long id = getIdToDelete();
+        if (null != id) {
         this.mockMvc.perform(delete(getEndPointUrl() + id.toString()).header(HttpHeaders.AUTHORIZATION,
                 getBasicUserDigestHeaderValue())).andDo(print()).andExpect(status().isOk());
+        }
 
         System.out.println("**************** deleteById End ****************");
     }

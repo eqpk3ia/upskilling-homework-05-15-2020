@@ -1,6 +1,7 @@
 package com.sanket.todo.entity;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -53,7 +54,7 @@ public class Task extends TodoEntity {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "TASK_LIST_TASKS", joinColumns = @JoinColumn(name = "TASK_ID"), inverseJoinColumns = @JoinColumn(name = "LIST_ID"))
-    private Set<TaskList> tasks;
+    private Set<TaskList> taskLists;
 
     public Long getId() {
         return id;
@@ -95,20 +96,21 @@ public class Task extends TodoEntity {
         this.udpateDate = udpateDate;
     }
 
-    public Task(String name, String description, User user) {
+    public Task(String name, String description, User user, HashSet<TaskList> taskLists) {
         this.name = name;
         this.description = description;
         this.user = user;
+        this.taskLists = taskLists;
     }
 
     public Task() {
     }
 
-    public Set<TaskList> getTasks() {
-        return tasks;
+    public Set<TaskList> getTaskLists() {
+        return taskLists;
     }
 
-    public void setTasks(Set<TaskList> tasks) {
-        this.tasks = tasks;
+    public void setTaskLists(Set<TaskList> taskLists) {
+        this.taskLists = taskLists;
     }
 }

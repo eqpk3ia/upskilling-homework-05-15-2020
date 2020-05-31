@@ -11,9 +11,9 @@ import com.sanket.todo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +35,7 @@ public class UserController extends AbstractController<User> {
         return userRepository;
     }
 
-    @PostMapping("/")
+    @PutMapping("/")
     public User addUser(@RequestParam(required = true, name = "firstName") String firstName,
         @RequestParam(required = true, name = "lastName") String lastName,
         @RequestParam(required = true, name = "email") String email,
@@ -49,7 +49,7 @@ public class UserController extends AbstractController<User> {
         return save(newUser);
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public User updateUser(@PathVariable(name = "id", required = true) Long id,
         @RequestParam(required = false, name = "firstName") String firstName,
         @RequestParam(required = false, name = "lastName") String lastName,
