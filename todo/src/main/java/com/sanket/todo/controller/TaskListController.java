@@ -1,10 +1,7 @@
 package com.sanket.todo.controller;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 import com.sanket.todo.entity.Task;
@@ -13,8 +10,6 @@ import com.sanket.todo.repository.TaskListRepository;
 import com.sanket.todo.repository.TaskRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

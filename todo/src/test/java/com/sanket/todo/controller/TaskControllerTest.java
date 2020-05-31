@@ -41,8 +41,8 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
 
         System.out.println("**************** addNewTaskWithTaskListId Start ****************");
 
-        MultiValueMap<String, String> updateEntity = getUpdateRecordDetails();
-        /*this.mockMvc
+        /* MultiValueMap<String, String> updateEntity = getUpdateRecordDetails();
+        this.mockMvc
                 .perform(put(getEndPointUrl() + "lists/" + "9")
                         .header(HttpHeaders.AUTHORIZATION, getBasicUserDigestHeaderValue()).params(updateEntity))
                 .andDo(print()).andExpect(status().isOk());
