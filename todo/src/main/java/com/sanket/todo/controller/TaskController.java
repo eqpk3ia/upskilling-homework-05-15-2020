@@ -1,9 +1,5 @@
 package com.sanket.todo.controller;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.sanket.todo.entity.Task;
 import com.sanket.todo.entity.User;
 import com.sanket.todo.repository.TaskRepository;
