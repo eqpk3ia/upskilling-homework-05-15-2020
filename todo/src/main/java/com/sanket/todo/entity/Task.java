@@ -1,6 +1,6 @@
 package com.sanket.todo.entity;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +12,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TASK")
 public class Task extends TodoEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TASK_ID")
@@ -31,12 +34,14 @@ public class Task extends TodoEntity {
     public String description;
 
     @CreationTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a Z")
     @Column(name = "CREATE_DT", insertable = true, updatable = false)
-    public Timestamp createDate;
+    public ZonedDateTime createDate;
 
     @UpdateTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a Z")
     @Column(name = "LAST_UPDT_DT", insertable = false, updatable = true, nullable = true)
-    public Timestamp udpateDate;
+    public ZonedDateTime udpateDate;
 
     @ManyToOne
     @JoinColumn(name="USER_ID", nullable=false)
@@ -66,19 +71,19 @@ public class Task extends TodoEntity {
         this.description = description;
     }
 
-    public Timestamp getCreateDate() {
+    public ZonedDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(ZonedDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Timestamp getUdpateDate() {
+    public ZonedDateTime getUdpateDate() {
         return udpateDate;
     }
 
-    public void setUdpateDate(Timestamp udpateDate) {
+    public void setUdpateDate(ZonedDateTime udpateDate) {
         this.udpateDate = udpateDate;
     }
 
@@ -90,6 +95,4 @@ public class Task extends TodoEntity {
 
     public Task() {
     }
-
-    
 }

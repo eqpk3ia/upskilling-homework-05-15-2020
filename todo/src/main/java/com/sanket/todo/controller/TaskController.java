@@ -37,22 +37,25 @@ public class TaskController extends AbstractController<Task> {
     }
 
     @PostMapping("/")
-    public Task addTask(@RequestParam("name") String name, @RequestParam("descr") String descr) {
+    public Task addTask(@RequestParam(name = "name", required = true) String name,
+            @RequestParam(name = "descr", required = false) String descr) {
 
         Task newTask = null;
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
+        if (!name.trim().isEmpty()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                String currentUserName = authentication.getName();
 
-            if (null != currentUserName && !currentUserName.trim().isEmpty()) {
-                User currentUser = userRepository.findByEmail(currentUserName);
+                if (null != currentUserName && !currentUserName.trim().isEmpty()) {
+                    User currentUser = userRepository.findByEmail(currentUserName);
 
-                if (null != currentUser) {
-                    //Set<User> users = new HashSet<User>(Arrays.asList(currentUser));
+                    if (null != currentUser) {
+                        // Set<User> users = new HashSet<User>(Arrays.asList(currentUser));
 
-                    newTask = new Task(name, descr, currentUser);
-                    save(newTask);
+                        newTask = new Task(name, descr, currentUser);
+                        save(newTask);
+                    }
                 }
             }
         }
@@ -61,8 +64,9 @@ public class TaskController extends AbstractController<Task> {
     }
 
     @PatchMapping("/{id}")
-    public Task updateTask(@PathVariable("id") Long id, @RequestParam("name") String name,
-            @RequestParam("descr") String descr) {
+    public Task updateTask(@PathVariable(name = "id", required = true) Long id,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "descr", required = false) String descr) {
         Task task = getById(id);
 
         if (null != task) {

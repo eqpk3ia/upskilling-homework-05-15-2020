@@ -19,7 +19,7 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
         MultiValueMap<String, String> addUser = new LinkedMultiValueMap<>();
 
         addUser.add("name", "First Task");
-        addUser.add("descr", "First Task Description");
+        //addUser.add("descr", "First Task Description");
 
         return addUser;
     }
