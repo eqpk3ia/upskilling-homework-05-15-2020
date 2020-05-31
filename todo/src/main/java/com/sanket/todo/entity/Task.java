@@ -1,13 +1,17 @@
 package com.sanket.todo.entity;
 
 import java.time.ZonedDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -46,6 +50,10 @@ public class Task extends TodoEntity {
     @ManyToOne
     @JoinColumn(name="USER_ID", nullable=false)
     private User user;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "TASK_LIST_TASKS", joinColumns = @JoinColumn(name = "TASK_ID"), inverseJoinColumns = @JoinColumn(name = "LIST_ID"))
+    private Set<TaskList> tasks;
 
     public Long getId() {
         return id;
@@ -94,5 +102,13 @@ public class Task extends TodoEntity {
     }
 
     public Task() {
+    }
+
+    public Set<TaskList> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<TaskList> tasks) {
+        this.tasks = tasks;
     }
 }
