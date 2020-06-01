@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.sanket.todo.entity.Task;
 import com.sanket.todo.entity.TaskList;
@@ -49,7 +50,7 @@ public class TaskController extends AbstractAuthenticationController<Task> {
             User currentUser = getCurrentUser();
 
             if (null != currentUser) {
-                newTask = new Task(name, descr, currentUser, null);
+                newTask = new Task(name, descr, "NEW", currentUser, null);
                 save(newTask);
 
             }
@@ -71,7 +72,7 @@ public class TaskController extends AbstractAuthenticationController<Task> {
                 TaskList taskList = taskListController.getById(taskListId);
 
                 if (null != taskList) {
-                    newTask = new Task(name, descr, currentUser, new HashSet<TaskList>(Arrays.asList(taskList)));
+                    newTask = new Task(name, descr, "NEW", currentUser, new HashSet<TaskList>(Arrays.asList(taskList)));
                     save(newTask);
                 }
             }
@@ -83,16 +84,21 @@ public class TaskController extends AbstractAuthenticationController<Task> {
     @PostMapping("/")
     public Task updateTask(@RequestParam(name = "id", required = true) Long id,
             @RequestParam(name = "name", required = false) @NotBlank String name,
-            @RequestParam(name = "descr", required = false) @NotBlank String descr) {
+            @RequestParam(name = "descr", required = false) @NotBlank String descr,
+            @RequestParam(name = "status", required = false) @NotBlank String status) {
         Task task = getById(id);
 
         if (null != task) {
-            if (null != name && !name.trim().isEmpty()) {
+            if (null != name) {
                 task.setName(name);
             }
 
-            if (null != descr && !descr.trim().isEmpty()) {
+            if (null != descr) {
                 task.setDescription(descr);
+            }
+
+            if (null != status) {
+                task.setStatus(status);
             }
 
             save(task);
@@ -131,5 +137,10 @@ public class TaskController extends AbstractAuthenticationController<Task> {
                 save(resultTask);
             }
         }
+    }
+
+    @GetMapping("/status/{status}")
+    public List<Task> getAllByTaskStatus(@PathVariable(name = "status", required = true) @NotBlank String status) {
+        return taskRepository.findByStatus(status.toUpperCase());
     }
 }

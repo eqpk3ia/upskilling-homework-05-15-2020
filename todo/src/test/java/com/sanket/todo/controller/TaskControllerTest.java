@@ -31,6 +31,8 @@ public class TaskControllerTest extends AbstractControllerTest<Task> {
 
         updateUser.add("id", "7");
         updateUser.add("name", "First Update Task");
+        updateUser.add("status", "IN PROGRESS");
+        
         updateUser.add("descr", "First Updated Description");
 
         return updateUser;

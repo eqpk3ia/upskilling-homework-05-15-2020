@@ -7,12 +7,12 @@ upskilling-homework-05-15-2020
   - Use any datastore of your choice.
   - Don't forget `red-green-commit-refactor-commit`
 - User stories for your TODO app:
-  - As a VISITOR, I should be able to login to see my TODO list
-  - As a USER, I should be able to add a Task
-  - As a USER, I should be able to see when a Task was added
-  - As a USER, I should be able to update or delete a Task
-  - As a USER, I should be able to mark a task as complete
-  - As a USER, I should be able to request all tasks, completed tasks or outstanding tasks to view.
-  - As a USER, I should be able to see when a task was marked as completed.
-  - As a USER, I should be able to provide more details (optional description) to my task(s).
+  - As a VISITOR, I should be able to login to see my TODO list  : Done
+  - As a USER, I should be able to add a Task : Done
+  - As a USER, I should be able to see when a Task was added : Done with CreateDate
+  - As a USER, I should be able to update or delete a Task : done
+  - As a USER, I should be able to mark a task as complete : Done, able to update
+  - As a USER, I should be able to request all tasks, completed tasks or outstanding tasks to view. : Done with based on status search
+  - As a USER, I should be able to see when a task was marked as completed. : Done with last update date
+  - As a USER, I should be able to provide more details (optional description) to my task(s) : Done with description column
   

@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     public List<Task> findByTaskLists(TaskList taskList);
+    public List<Task> findByStatus(String status);
 }

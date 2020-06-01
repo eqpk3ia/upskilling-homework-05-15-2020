@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -38,6 +39,10 @@ public class Task extends TodoEntity {
     @Column(name = "DESCRIPTION", nullable = true)
     public String description;
 
+    @Column(name = "STATUS", nullable =false)
+    
+    public String status;
+
     @CreationTimestamp
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a Z")
     @Column(name = "CREATE_DT", insertable = true, updatable = false)
@@ -45,7 +50,7 @@ public class Task extends TodoEntity {
 
     @UpdateTimestamp
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a Z")
-    @Column(name = "LAST_UPDT_DT", insertable = false, updatable = true, nullable = true)
+    @Column(name = "LAST_UPDT_DT", insertable = true, updatable = true, nullable = true)
     public ZonedDateTime udpateDate;
 
     @ManyToOne
@@ -96,11 +101,12 @@ public class Task extends TodoEntity {
         this.udpateDate = udpateDate;
     }
 
-    public Task(String name, String description, User user, HashSet<TaskList> taskLists) {
+    public Task(String name, String description, String status, User user, HashSet<TaskList> taskLists) {
         this.name = name;
         this.description = description;
         this.user = user;
         this.taskLists = taskLists;
+        this.status = status;
     }
 
     public Task() {
@@ -112,5 +118,13 @@ public class Task extends TodoEntity {
 
     public void setTaskLists(Set<TaskList> taskLists) {
         this.taskLists = taskLists;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
